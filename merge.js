@@ -4,38 +4,44 @@ var from = require('from2')
 // merge sort taken from
 // https://github.com/mafintosh/stream-iterate/blob/master/test.js
 
-module.exports = function sort (streamA, streamB, toKey) {
-  var readA = iterate(streamA, toKey)
+function defaultKey (val) {
+  return val.key || val
+}
+
+module.exports = function merge (streamA, streamB, toKey) {
+  var readA = iterate(streamA)
   var readB = iterate(streamB)
 
-  var stream = from.obj(function next (push) {
+  toKey = toKey || defaultKey
+
+  var stream = from.obj(function loop (size, push) {
     readA(function (err, dataA, nextA) {
       if (err) return push(err)
       readB(function (err, dataB, nextB) {
         if (err) return push(err)
 
-        if (!dataA && !dataB) return push(null, null)
-
         var keyA = dataA ? toKey(dataA) : undefined
         var keyB = dataB ? toKey(dataB) : undefined
 
-        if (!dataB || keyA < keyB) {
-          push(null, dataA)
+        if (!keyA && !keyB) return push(null, null)
+
+        if (!keyB || keyA < keyB) {
           nextA()
-          return next()
+          push(null, dataA)
+          return loop(size, push)
         }
 
-        if (!dataA || keyA > keyB) {
-          push(null, dataB)
+        if (!keyA || keyA > keyB) {
           nextB()
-          return next()
+          push(null, dataB)
+          return loop(size, push)
         }
 
-        push(null, dataA)
-        push(null, dataB)
         nextA()
         nextB()
-        next()
+        push(null, dataA)
+        push(null, dataB)
+        loop(size, push)
       })
     })
   })
