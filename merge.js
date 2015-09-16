@@ -14,7 +14,7 @@ module.exports = function merge (streamA, streamB, toKey) {
 
   if (!toKey) toKey = defaultKey
 
-  var stream = from.obj(function loop(size, cb) {
+  var stream = from.obj(function loop (size, cb) {
     readA(function (err, dataA, nextA) {
       if (err) return cb(err)
       readB(function (err, dataB, nextB) {
@@ -52,9 +52,9 @@ module.exports = function merge (streamA, streamB, toKey) {
     })
   })
 
-  stream.on('close', function() {
-    if (a.destroy) a.destroy()
-    if (b.destroy) b.destroy()
+  stream.on('close', function () {
+    if (streamA.destroy) streamA.destroy()
+    if (streamB.destroy) streamB.destroy()
   })
 
   return stream

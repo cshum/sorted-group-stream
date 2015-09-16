@@ -6,15 +6,11 @@ function defaultKey (val) {
   return val.key || val
 }
 
-module.exports = function join () {
-  var args = Array.prototype.concat.apply([], arguments)
-  var toKey = defaultKey
-  if (typeof args[args.length - 1] === 'function') {
-    toKey = args.pop()
-  }
+module.exports = function join (joins, toKey) {
+  toKey = toKey || defaultKey
 
   // merge sort all streams into one stream
-  var fromStream = args.reduce(function (a, b) {
+  var fromStream = joins.reduce(function (a, b) {
     return merge(a, b, toKey)
   })
 
