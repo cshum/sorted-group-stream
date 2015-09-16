@@ -7,7 +7,7 @@ function defaultKey (val) {
 }
 
 module.exports = function join () {
-  var args = Array.prototype.slice.call(arguments)
+  var args = Array.prototype.concat.apply([], arguments)
   var toKey = defaultKey
   if (typeof args[args.length - 1] === 'function') {
     toKey = args.pop()
