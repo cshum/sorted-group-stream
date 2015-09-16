@@ -4,6 +4,7 @@
   "description": "SQL-like sort-merge joins for sorted streams",
   "author": "Adrian C Shum <adrian@cshum.com> (https://github.com/cshum)",
   "dependencies": {
+    "from2": "^2.1.0",
     "stream-iterate": "^1.1.1"
   },
   "devDependencies": {
