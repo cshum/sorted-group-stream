@@ -12,43 +12,49 @@ module.exports = function merge (streamA, streamB, toKey) {
   var readA = iterate(streamA)
   var readB = iterate(streamB)
 
-  toKey = toKey || defaultKey
+  if (!toKey) toKey = defaultKey
 
-  var stream = from.obj(function loop (size, push) {
+  var stream = from.obj(function loop(size, cb) {
     readA(function (err, dataA, nextA) {
-      if (err) return push(err)
+      if (err) return cb(err)
       readB(function (err, dataB, nextB) {
-        if (err) return push(err)
+        if (err) return cb(err)
 
-        var keyA = dataA ? toKey(dataA) : undefined
-        var keyB = dataB ? toKey(dataB) : undefined
+        if (!dataA && !dataB) return cb(null, null)
 
-        if (!keyA && !keyB) return push(null, null)
-
-        if (!keyB || keyA < keyB) {
-          nextA()
-          push(null, dataA)
-          return loop(size, push)
-        }
-
-        if (!keyA || keyA > keyB) {
+        if (!dataA) {
           nextB()
-          push(null, dataB)
-          return loop(size, push)
+          return cb(null, dataB)
         }
 
-        nextA()
+        if (!dataB) {
+          nextA()
+          return cb(null, dataA)
+        }
+
+        var keyA = toKey(dataA)
+        var keyB = toKey(dataB)
+
+        if (keyA === keyB) {
+          nextB()
+          cb(null, dataB)
+          return loop(size, cb)
+        }
+
+        if (keyA < keyB) {
+          nextA()
+          return cb(null, dataA)
+        }
+
         nextB()
-        push(null, dataA)
-        push(null, dataB)
-        loop(size, push)
+        cb(null, dataB)
       })
     })
   })
 
-  stream.on('close', function () {
-    if (streamA.destroy) streamA.destroy()
-    if (streamB.destroy) streamB.destroy()
+  stream.on('close', function() {
+    if (a.destroy) a.destroy()
+    if (b.destroy) b.destroy()
   })
 
   return stream
