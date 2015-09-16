@@ -20,11 +20,12 @@ test('join', function (t) {
     {key: 1}, {key: 1}, {key: 2}, {key: 3}, {key: 3}
   ]))
   .pipe(callback.obj(function (err, arr) {
+    t.notOk(err)
     t.deepEqual(arr, [
       [ { key: 1 }, { key: 1 } ],
       [ { key: 2 } ],
       [ { key: 3 }, { key: 3 } ]
-    ], 'grouping')
+    ], 'join')
     t.end()
   }))
 })

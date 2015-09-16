@@ -20,28 +20,32 @@ module.exports = function join () {
 
   // group into arrays by key
   var read = iterate(fromStream)
+  var ended = false
   var curr, stack
   var stream = from.obj(function loop (size, cb) {
+    if (ended) return cb(null, null)
     read(function (err, data, next) {
       if (err) return cb(err)
-
       if (!data) {
-        if (stack && stack.length > 0) cb(null, stack)
-        stack = null
-        return cb(null, null)
+        ended = true
+        return cb(null, stack)
       }
 
-      next()
       var key = toKey(data)
 
-      if (key === curr) {
-        stack.push(data)
-      } else {
-        if (stack && stack.length > 0) cb(null, stack)
-        stack = [data]
-        curr = key
+      if (key !== curr) {
+        if (stack) {
+          var arr = stack
+          stack = null
+          return cb(null, arr)
+        } else {
+          stack = []
+          curr = key
+        }
       }
 
+      stack.push(data)
+      next()
       loop(size, cb)
     })
   })
