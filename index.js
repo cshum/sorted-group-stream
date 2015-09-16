@@ -7,7 +7,7 @@ function defaultKey (val) {
 }
 
 module.exports = function join () {
-  var args = Array.prototype.slice(arguments)
+  var args = Array.prototype.slice.call(arguments)
   var toKey = defaultKey
   if (typeof args[args.length - 1] === 'function') {
     toKey = args.pop()
@@ -20,24 +20,29 @@ module.exports = function join () {
 
   // group into arrays by key
   var read = iterate(fromStream)
-  var key, stack
-  var stream = from.obj(function loop (size, push) {
-    read(function (err, data, fromNext) {
-      if (err) return push(err)
+  var curr, stack
+  var stream = from.obj(function loop (size, cb) {
+    read(function (err, data, next) {
+      if (err) return cb(err)
+
       if (!data) {
-        if (stack && stack.length > 0) push(null, stack)
-        push(null, null)
-      } else {
-        if (toKey(data) === key) {
-          stack.push(data)
-        } else {
-          if (stack && stack.length > 0) push(null, stack)
-          stack = [data]
-          key = toKey(data)
-        }
-        fromNext()
-        loop(size, push)
+        if (stack && stack.length > 0) cb(null, stack)
+        stack = null
+        return cb(null, null)
       }
+
+      next()
+      var key = toKey(data)
+
+      if (key === curr) {
+        stack.push(data)
+      } else {
+        if (stack && stack.length > 0) cb(null, stack)
+        stack = [data]
+        curr = key
+      }
+
+      loop(size, cb)
     })
   })
 
