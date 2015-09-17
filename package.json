@@ -1,7 +1,7 @@
 {
   "name": "group-stream",
   "version": "0.0.1",
-  "description": "Sorted stream group by key",
+  "description": "Group a sorted stream by key",
   "author": "Adrian C Shum <adrian@cshum.com> (https://github.com/cshum)",
   "dependencies": {
     "from2": "^2.1.0",
@@ -14,10 +14,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/cshum/merge-join-stream.git"
+    "url": "https://github.com/cshum/group-stream.git"
   },
   "license": "MIT",
-  "homepage": "https://github.com/cshum/merge-join-stream",
+  "homepage": "https://github.com/cshum/group-stream",
   "scripts": {
     "test": "standard && node test.js"
   }
