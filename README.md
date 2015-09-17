@@ -26,11 +26,11 @@ stream.pipe(...)
 [3]
 ```
 
-Combine with [merge-sorted-stream](https://github.com/cshum/merge-sorted-stream) with custom key mapping:
+Combine with [sorted-merge-stream](https://github.com/cshum/sorted-merge-stream) with custom key mapping:
 
 ```js
 var group = require('group-stream')
-var merge = require('merge-sorted-stream')
+var merge = require('sorted-merge-stream')
 var from = require('from2')
 
 var a = from.obj([{id: 1}, {id: 3}, {id: 6}])

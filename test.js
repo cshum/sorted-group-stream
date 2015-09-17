@@ -2,7 +2,7 @@ var test = require('tape')
 var from = require('from2')
 var callback = require('callback-stream')
 var group = require('./')
-var merge = require('merge-sorted-stream')
+var merge = require('sorted-merge-stream')
 
 test('group', function (t) {
   group(from.obj([1, 1, 2, 2, 3])).pipe(callback.obj(function (err, data) {
