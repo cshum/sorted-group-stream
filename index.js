@@ -1,21 +1,14 @@
 var iterate = require('stream-iterate')
 var from = require('from2')
-var merge = require('./merge')
 
 function defaultKey (val) {
   return val.key || val
 }
 
-module.exports = function join (joins, toKey) {
+module.exports = function group (sorted, toKey) {
   toKey = toKey || defaultKey
 
-  // merge sort all streams into one stream
-  var fromStream = joins.reduce(function (a, b) {
-    return merge(a, b, toKey)
-  })
-
-  // group into arrays by key
-  var read = iterate(fromStream)
+  var read = iterate(sorted)
   var ended = false
   var curr, stack
   var stream = from.obj(function loop (size, cb) {
@@ -47,7 +40,7 @@ module.exports = function join (joins, toKey) {
   })
 
   stream.on('close', function () {
-    if (fromStream.destroy) fromStream.destroy()
+    if (sorted.destroy) sorted.destroy()
   })
 
   return stream

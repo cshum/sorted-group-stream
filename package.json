@@ -1,7 +1,7 @@
 {
-  "name": "merge-join-stream",
+  "name": "group-stream",
   "version": "0.0.1",
-  "description": "SQL-like sort-merge joins for sorted streams",
+  "description": "Sorted stream group by key",
   "author": "Adrian C Shum <adrian@cshum.com> (https://github.com/cshum)",
   "dependencies": {
     "from2": "^2.1.0",
