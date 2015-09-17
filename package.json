@@ -1,6 +1,6 @@
 {
   "name": "group-stream",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Group a sorted stream by key",
   "author": "Adrian C Shum <adrian@cshum.com> (https://github.com/cshum)",
   "dependencies": {
@@ -9,6 +9,7 @@
   },
   "devDependencies": {
     "callback-stream": "^1.1.0",
+    "merge-sorted-stream": "^1.0.0",
     "standard": "^5.1.0",
     "tape": "^4.1.0"
   },
