@@ -10,7 +10,8 @@ module.exports = function group (sorted, toKey) {
 
   var read = iterate(sorted)
   var ended = false
-  var curr, stack
+  var stack = null
+  var curr
   var stream = from.obj(function loop (size, cb) {
     if (ended) return cb(null, null)
     read(function (err, data, next) {

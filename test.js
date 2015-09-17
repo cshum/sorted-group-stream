@@ -15,6 +15,15 @@ test('group', function (t) {
     t.end()
   }))
 })
+
+test('group empty', function (t) {
+  group(from.obj([])).pipe(callback.obj(function (err, data) {
+    t.notOk(err)
+    t.deepEqual(data, [])
+    t.end()
+  }))
+})
+
 test('group by custom key', function (t) {
   group(from.obj([
     {id: 1}, {id: 1}, {id: 2}, {id: 3}, {id: 3}
