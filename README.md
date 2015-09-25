@@ -8,8 +8,8 @@ Group a sorted stream by key.
 npm install group-stream
 ```
 
-### group(stream, [toKey])
-Group a sorted stream by key.
+### group([toKey])
+A transform stream that groups objects by key.
 By default keys are mapped by `value.key` or `value` itself. Add a `toKey` function if you need custom key mapping.
 
 ```js
