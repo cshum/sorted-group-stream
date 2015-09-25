@@ -16,9 +16,9 @@ By default keys are mapped by `value.key` or `value` itself. Add a `toKey` funct
 var group = require('group-stream')
 var from = require('from2')
 
-var stream = group(from.obj([1, 1, 2, 2, 3]))
+var stream = from.obj([1, 1, 2, 2, 3])
 
-stream.pipe(...)
+stream.pipe(group()).pipe(...)
 
 // result
 [1, 1]
@@ -41,11 +41,11 @@ function toKey (data) {
   return data.id
 }
 
-var stream = group([a, b, c].reduce(function (a, b) {
+var stream = [a, b, c].reduce(function (a, b) {
   return merge(a, b, toKey)
-}), toKey)
+})
 
-stream.pipe(...)
+stream.pipe(group(toKey)).pipe(...)
 
 // result
 [{id: 1}, {id: 1}]
