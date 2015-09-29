@@ -69,3 +69,41 @@ test('merge sort and group by custom key', function (t) {
     t.end()
   }))
 })
+
+test('extend group by default key', function (t) {
+  from.obj([
+    {key: 1, a: true}, {key: 1, b: true},
+    {key: 2, a: true},
+    {key: 3, a: true}, {key: 3, b: true}
+  ])
+  .pipe(group({ extend: true }))
+  .pipe(callback.obj(function (err, data) {
+    t.notOk(err)
+    t.deepEqual(data, [
+      { key: 1, a: true, b: true },
+      { key: 2, a: true },
+      { key: 3, a: true, b: true }
+    ])
+    t.end()
+  }))
+})
+
+test('extend group by custom key', function (t) {
+  from.obj([
+    {id: 1, a: true}, {id: 1, b: true},
+    {id: 2, a: true},
+    {id: 3, a: true}, {id: 3, b: true}
+  ])
+  .pipe(group(function (data) {
+    return data.id
+  }, { extend: true }))
+  .pipe(callback.obj(function (err, data) {
+    t.notOk(err)
+    t.deepEqual(data, [
+      { id: 1, a: true, b: true },
+      { id: 2, a: true },
+      { id: 3, a: true, b: true }
+    ])
+    t.end()
+  }))
+})
