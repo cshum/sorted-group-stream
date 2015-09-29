@@ -59,7 +59,7 @@ stream
 {id: 1, a: true, b: true}
 {id: 2, b: true}
 {id: 3, a: true, c: true}
-{id: 5, b: true}
+{id: 5, c: true}
 {id: 6, a: true, b: true, c: true}
 
 ```
