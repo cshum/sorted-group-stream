@@ -1,6 +1,6 @@
 {
   "name": "group-stream",
-  "version": "2.0.1",
+  "version": "3.0.0",
   "description": "Group a sorted stream by key",
   "author": "Adrian C Shum <adrian@cshum.com> (https://github.com/cshum)",
   "dependencies": {
