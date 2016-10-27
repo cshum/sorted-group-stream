@@ -10,9 +10,9 @@ test('group', function (t) {
   .pipe(callback.obj(function (err, data) {
     t.notOk(err)
     t.deepEqual(data, [
-      [1, 1],
-      [2, 2],
-      [3]
+      {key: 1, value: [1, 1]},
+      {key: 2, value: [2, 2]},
+      {key: 3, value: [3]}
     ])
     t.end()
   }))
@@ -36,9 +36,9 @@ test('group by custom key', function (t) {
   .pipe(callback.obj(function (err, data) {
     t.notOk(err)
     t.deepEqual(data, [
-      [ { id: 1 }, { id: 1 } ],
-      [ { id: 2 } ],
-      [ { id: 3 }, { id: 3 } ]
+      {key: 1, value: [ { id: 1 }, { id: 1 } ]},
+      {key: 2, value: [ { id: 2 } ]},
+      {key: 3, value: [ { id: 3 }, { id: 3 } ]}
     ])
     t.end()
   }))
@@ -60,50 +60,12 @@ test('merge sort and group by custom key', function (t) {
   .pipe(callback.obj(function (err, data) {
     t.notOk(err)
     t.deepEqual(data, [
-      [{id: 1}, {id: 1}],
-      [{id: 2}],
-      [{id: 3}, {id: 3}],
-      [{id: 5}],
-      [{id: 6}, {id: 6}, {id: 6}]
+      {key: 1, value: [{id: 1}, {id: 1}]},
+      {key: 2, value: [{id: 2}]},
+      {key: 3, value: [{id: 3}, {id: 3}]},
+      {key: 5, value: [{id: 5}]},
+      {key: 6, value: [{id: 6}, {id: 6}, {id: 6}]}
     ], 'merge join')
-    t.end()
-  }))
-})
-
-test('extend group by default key', function (t) {
-  from.obj([
-    {key: 1, a: true}, {key: 1, b: true},
-    {key: 2, a: true},
-    {key: 3, a: true}, {key: 3, b: true}
-  ])
-  .pipe(group({ extend: true }))
-  .pipe(callback.obj(function (err, data) {
-    t.notOk(err)
-    t.deepEqual(data, [
-      { key: 1, a: true, b: true },
-      { key: 2, a: true },
-      { key: 3, a: true, b: true }
-    ])
-    t.end()
-  }))
-})
-
-test('extend group by custom key', function (t) {
-  from.obj([
-    {id: 1, a: true}, {id: 1, b: true},
-    {id: 2, a: true},
-    {id: 3, a: true}, {id: 3, b: true}
-  ])
-  .pipe(group(function (data) {
-    return data.id
-  }, { extend: true }))
-  .pipe(callback.obj(function (err, data) {
-    t.notOk(err)
-    t.deepEqual(data, [
-      { id: 1, a: true, b: true },
-      { id: 2, a: true },
-      { id: 3, a: true, b: true }
-    ])
     t.end()
   }))
 })
