@@ -8,12 +8,10 @@ Group a sorted stream by key.
 npm install group-stream
 ```
 
-### group([toKey], [options])
+### `group([toKey])`
 A transform stream that groups objects by key.
 
-Keys are mapped by `value.key` or `value` itself. Add a `toKey` function if you need custom key mapping.
-
-By default values are grouped into arrays. Use `options.extend = true` for object extend grouping.
+Keys are mapped by `value.key` or `value` itself. Pass `toKey` function for custom key mapping.
 
 ```js
 var group = require('group-stream')
@@ -24,13 +22,12 @@ var stream = from.obj([1, 1, 2, 2, 3])
 stream.pipe(group()).pipe(...)
 
 // result
-[1, 1]
-[2, 2]
-[3]
+{ key: 1, value: [1, 1] }
+{ key: 2, value: [2, 2] }
+{ key: 3, value: [3] }
 ```
 
-Combine with [sorted-merge-stream](https://github.com/cshum/sorted-merge-stream),
-custom key mapping, object extend:
+Combine with [sorted-merge-stream](https://github.com/cshum/sorted-merge-stream) and custom key mapping:
 
 ```js
 var group = require('group-stream')
@@ -52,15 +49,15 @@ var stream = [a, b, c].reduce(function (a, b) {
 
 // group stream, object extend
 stream
-.pipe(group(toKey, {extend: true}))
+.pipe(group(toKey))
 .pipe(...)
 
 // result
-{id: 1, a: true, b: true}
-{id: 2, b: true}
-{id: 3, a: true, c: true}
-{id: 5, c: true}
-{id: 6, a: true, b: true, c: true}
+{ key: 1, value: [{ id: 1, a: true }, { id: 1, b: true }] }
+{ key: 2, value: [{ id: 2, b: true }] }
+{ key: 3, value: [{ id: 3, a: true }, { id: 3, c: true }] }
+{ key: 5, value: [{ id: 5, c: true }] }
+{ key: 6, value: [{ id: 6, a: true }, { id: 6, b: true }, { id: 6, c: true }] }
 
 ```
 
