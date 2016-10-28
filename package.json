@@ -1,5 +1,5 @@
 {
-  "name": "group-stream",
+  "name": "sorted-group-stream",
   "version": "3.0.0",
   "description": "Group a sorted stream by key",
   "author": "Adrian C Shum <adrian@cshum.com> (https://github.com/cshum)",
@@ -15,10 +15,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/cshum/group-stream.git"
+    "url": "https://github.com/cshum/sorted-group-stream.git"
   },
   "license": "MIT",
-  "homepage": "https://github.com/cshum/group-stream",
+  "homepage": "https://github.com/cshum/sorted-group-stream",
   "scripts": {
     "test": "standard && node test.js"
   }

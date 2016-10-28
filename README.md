@@ -1,11 +1,11 @@
-# group-stream
+# sorted-group-stream
 
 Group a sorted stream by key.
 
-[![Build Status](https://travis-ci.org/cshum/group-stream.svg?branch=master)](https://travis-ci.org/cshum/group-stream)
+[![Build Status](https://travis-ci.org/cshum/sorted-group-stream.svg?branch=master)](https://travis-ci.org/cshum/sorted-group-stream)
 
 ```
-npm install group-stream
+npm install sorted-group-stream
 ```
 
 ### `group([toKey])`
@@ -14,7 +14,7 @@ A transform stream that groups objects by key.
 Keys are mapped by `value.key` or `value` itself. Pass `toKey` function for custom key mapping.
 
 ```js
-var group = require('group-stream')
+var group = require('sorted-group-stream')
 var from = require('from2')
 
 var stream = from.obj([1, 1, 2, 2, 3])
@@ -30,7 +30,7 @@ stream.pipe(group()).pipe(...)
 Combine with [sorted-merge-stream](https://github.com/cshum/sorted-merge-stream) and custom key mapping:
 
 ```js
-var group = require('group-stream')
+var group = require('sorted-group-stream')
 var merge = require('sorted-merge-stream')
 var from = require('from2')
 
